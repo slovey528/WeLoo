@@ -12,7 +12,7 @@ module.exports = function (webot) {
 		pattern: /^(yelp)\s*/i,
 		handler: function(info) {
 			info = utils.sanitizeInfo(info);
-
+			info.wait('search_nearby_food');
 			return utils.localizedText(webot,
     		{
      			'en_us' : 'Please send your location',
