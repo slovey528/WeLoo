@@ -30,6 +30,7 @@ module.exports = exports = function(webot){
   webot.loads('./weather/weather');
   webot.loads('./uwaterloo/food/food_services');
   webot.loads('./eatWhat/eat_what');
+  webot.loads('./yelpapi/yelpapi');
   // webot.loads('language/set_language');
 
   webot.set({
@@ -39,7 +40,7 @@ module.exports = exports = function(webot){
     },
     handler: function(info, next){
       var reply_cn = {
-        title: '感谢关注「微卢」\n先输入「Help」看看都能做什么吧',
+        title: '感谢关注「微卢」\n输入「Help」看看能干什么吧',
         pic: 'http://i.imgur.com/YWiWlYj.png?1?9930',
         url: 'http://team-welooba.github.io/WeLoo',
         description: [
@@ -90,7 +91,7 @@ module.exports = exports = function(webot){
         description: [
           'WeLoo Command List:',
           '「Food」: Food Services Open Hours',
-          '「Exam」: Check Final Ecam Schedule',
+          '「Exam」: Check Final Exam Schedule',
           '「Lang」: Change Default Language',
           '「Help」: Read This Message Again',
           '「Weather」: Waterloo Current Weather'
@@ -409,72 +410,72 @@ webot.set('map',{
     }
   });
 
-//calculate distance between two locations
-function distance(lat1, lon1, lat2, lon2, unit) {
-    var radlat1 = Math.PI * lat1/180
-    var radlat2 = Math.PI * lat2/180
-    var radlon1 = Math.PI * lon1/180
-    var radlon2 = Math.PI * lon2/180
-    var theta = lon1-lon2
-    var radtheta = Math.PI * theta/180
-    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    dist = Math.acos(dist)
-    dist = dist * 180/Math.PI
-    dist = dist * 60 * 1.1515
-    if (unit=="K") { dist = dist * 1.609344 }
-    if (unit=="N") { dist = dist * 0.8684 }
-    if (unit=="meter") { dist = dist * 1.609344*1000 }
-    return dist
-}
+// //calculate distance between two locations
+// function distance(lat1, lon1, lat2, lon2, unit) {
+//     var radlat1 = Math.PI * lat1/180
+//     var radlat2 = Math.PI * lat2/180
+//     var radlon1 = Math.PI * lon1/180
+//     var radlon2 = Math.PI * lon2/180
+//     var theta = lon1-lon2
+//     var radtheta = Math.PI * theta/180
+//     var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+//     dist = Math.acos(dist)
+//     dist = dist * 180/Math.PI
+//     dist = dist * 60 * 1.1515
+//     if (unit=="K") { dist = dist * 1.609344 }
+//     if (unit=="N") { dist = dist * 0.8684 }
+//     if (unit=="meter") { dist = dist * 1.609344*1000 }
+//     return dist
+// }
 
-  //支持location消息 此examples使用的是高德地图的API
-  //http://restapi.amap.com/rgeocode/simple?resType=json&encode=utf-8&range=3000&roadnum=0&crossnum=0&poinum=0&retvalue=1&sid=7001&region=113.24%2C23.08
-  webot.set('check_location', {
-    description: '发送你的经纬度,我会查询你和SLC Tim Hortons之间的距离',
-    pattern: function(info){
-      return info.is('location');
-    },
-    handler: function(info, next){
-      console.log("location checking");
+//   //支持location消息 此examples使用的是高德地图的API
+//   //http://restapi.amap.com/rgeocode/simple?resType=json&encode=utf-8&range=3000&roadnum=0&crossnum=0&poinum=0&retvalue=1&sid=7001&region=113.24%2C23.08
+//   webot.set('check_location', {
+//     description: '发送你的经纬度,我会查询你和SLC Tim Hortons之间的距离',
+//     pattern: function(info){
+//       return info.is('location');
+//     },
+//     handler: function(info, next){
+//       console.log("location checking");
 
-      console.log("lat: " + info.param.lat);
-      console.log("long: " + info.param.lng);
-      var dis = distance(info.param.lat,info.param.lng,43.471324,-80.545186,"meter");
-      var gm = require('googlemaps');
-      var util = require('util');
-      var data;
-      var output = "";
-      var address = "";
-      var s = info.param.lat.toString();
-      var distance_to_slc_tim = Math.ceil(dis);
-      s +=",";
-      s += info.param.lng.toString();
-       gm.reverseGeocode(s, function(err, data){
-        if(data.results.length<1){
-          output = utils.localizedText(webot, 
-        {
-          'en_us' : "no such address. I am sorry buddy!",
-          'zh_cn' : '对不起，没有这个地址'
-        })
-        }
-        else{
-          address = data.results[0].formatted_address;
-          // log("address: %s", output);
+//       console.log("lat: " + info.param.lat);
+//       console.log("long: " + info.param.lng);
+//       var dis = distance(info.param.lat,info.param.lng,43.471324,-80.545186,"meter");
+//       var gm = require('googlemaps');
+//       var util = require('util');
+//       var data;
+//       var output = "";
+//       var address = "";
+//       var s = info.param.lat.toString();
+//       var distance_to_slc_tim = Math.ceil(dis);
+//       s +=",";
+//       s += info.param.lng.toString();
+//        gm.reverseGeocode(s, function(err, data){
+//         if(data.results.length<1){
+//           output = utils.localizedText(webot, 
+//         {
+//           'en_us' : "no such address. I am sorry buddy!",
+//           'zh_cn' : '对不起，没有这个地址'
+//         })
+//         }
+//         else{
+//           address = data.results[0].formatted_address;
+//           // log("address: %s", output);
 
-          output = utils.localizedText(webot, 
-        {
-          'en_us' : "your current location is: "+address+"\n"+"Distance between you and SLC Tim Hortons is: "+ distance_to_slc_tim+" m",
-          'zh_cn' : "您现在所在位置: "+address+"\n"+"您距离SLC的Tim Hortons的距离是: "+ distance_to_slc_tim+" m"
-        })
-        }
-          next(null, output);
-        });
-      // geo2loc(info.param, function(err, location, data) {
-      //   location = location || info.label;
-      //   next(null, location ? '你正在' + location : '我不知道你在什么地方。');
-      // });
-    }
-  });
+//           output = utils.localizedText(webot, 
+//         {
+//           'en_us' : "your current location is: "+address+"\n"+"Distance between you and SLC Tim Hortons is: "+ distance_to_slc_tim+" m",
+//           'zh_cn' : "您现在所在位置: "+address+"\n"+"您距离SLC的Tim Hortons的距离是: "+ distance_to_slc_tim+" m"
+//         })
+//         }
+//           next(null, output);
+//         });
+//       // geo2loc(info.param, function(err, location, data) {
+//       //   location = location || info.label;
+//       //   next(null, location ? '你正在' + location : '我不知道你在什么地方。');
+//       // });
+//     }
+//   });
 
   //图片
   webot.set('check_image', {
