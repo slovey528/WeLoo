@@ -8,7 +8,7 @@ var foodName = ['Tim Hortons','Bon Appétit','Browsers Café','ML’s Coffee Sho
 								'Mudie’s','PAS Lounge','Pastry Plus','REVelation','Campus Bubble','Wasabi',
 								'International News'];
 
-var foodPic = ['https://uwaterloo.ca/food-services/sites/ca.food-services/files/tims.gif',
+var foodPic = ['http://i.imgur.com/8U33jrS.jpg?1',
 							 'https://uwaterloo.ca/food-services/sites/ca.food-services/files/BA.gif',
 							 'https://uwaterloo.ca/food-services/sites/ca.food-services/files/browsers.gif',
 							 'https://uwaterloo.ca/food-services/sites/ca.food-services/files/mls.jpg',
