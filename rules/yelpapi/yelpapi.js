@@ -27,7 +27,7 @@ module.exports = function (webot) {
           }),
         pic: utils.localizedText(webot,
           {
-            'en_us' : 'http://i.imgur.com/s8h5Bu8.jpg?2',
+            'en_us' : 'http://i.imgur.com/s8h5Bu8.jpg?3',
             'zh_cn' : 'http://i.imgur.com/Dv7zpbq.jpg?1'
           })
       }
