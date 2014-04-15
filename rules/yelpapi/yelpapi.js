@@ -21,14 +21,14 @@ module.exports = function (webot) {
 		}
 	});
 
-	webot.waitRule('search_nearby_food', function(info, next){
-		if (info.is('text') && utils.findCommand(info.text)) {
+  webot.waitRule('search_nearby_food', function(info, next){
+    if (info.is('text') && utils.findCommand(info.text)) {
 			console.log('Next Command is: '+info.text);
       next();
 		} else if (info.is('location')) {
 			var lat = info.param.lat;
 			var lng = info.param.lng;
-			yelp.search({term: 'food', location: lat+','+lng, limit: '5'}, function(error, data) {
+			yelp.search({term: 'food', ll: lat+','+lng, limit: '5'}, function(error, data) {
   			var data = data['businesses'];
   			var res = new Array();
   			for (var i = 0; i < data.length; i++) {
