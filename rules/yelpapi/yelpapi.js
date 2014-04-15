@@ -7,24 +7,41 @@ var yelp = require("yelp").createClient({
   token_secret: '-lShccaeZ0QdfiWeTPejt6GuskM'
 });
 
+var rearrangePhoneNum = function(phone) {
+  var phone_list = phone.split('-');
+  var new_phone = '('+phone_list[1]+')'+phone_list[2]+'-'+phone_list[3];
+  return new_phone;
+};
+
 module.exports = function (webot) {
 	webot.set('yelp command', {
 		pattern: /^(yelp)\s*/i,
 		handler: function(info) {
 			info = utils.sanitizeInfo(info);
 			info.wait('search_nearby_food');
-			return utils.localizedText(webot,
-    		{
-     			'en_us' : 'Please send your location',
-   				'zh_cn' : '请发送你的地理位置'
-				});
+      var reply =  {
+        title: utils.localizedText(webot,
+          {
+            'en_us' : 'Please Send Your Location',
+            'zh_cn' : '请发送你的地理位置'
+          }),
+        pic: utils.localizedText(webot,
+          {
+            'en_us' : 'http://i.imgur.com/s8h5Bu8.jpg?1',
+            'zh_cn' : 'http://i.imgur.com/Dv7zpbq.jpg?1'
+          })
+      }
+			return reply;
 		}
 	});
 
 	webot.waitRule('search_nearby_food', function(info, next){
-    if (info.is('text') && utils.findCommand(info.text)) {
-			console.log('Next Command is: '+info.text);
-      next();
+    if (info.is('text')) {
+      info = utils.sanitizeInfo(info);
+      if (utils.findCommand(info.text)) {
+        console.log('Next Command is: '+info.text);
+        next();
+      }
 		} else if (info.is('location')) {
 			var lat = info.param.lat;
 			var lng = info.param.lng;
@@ -37,12 +54,9 @@ module.exports = function (webot) {
   					var rating = data[i]['rating'];
   					var mobile_url = data[i]['mobile_url'];
   					var image_url = data[i]['image_url'];
-  					var display_phone = data[i]['display_phone'];
-  					var is_closed;
-  					if (data[i]['is_closed']) is_closed = 'Closed';
-  					else is_closed = 'Open';
+  					var display_phone = rearrangePhoneNum(data[i]['display_phone']);
   					var reply = {
-  						title: name+' '+rating+'/5'+'\n'+display_phone+' '+is_closed,
+  						title: name+'\nRating: '+rating+' / 5'+'\nCell: '+display_phone,
   						pic: image_url,
   						url: mobile_url
   					};
