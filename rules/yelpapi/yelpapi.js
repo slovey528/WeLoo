@@ -29,7 +29,7 @@ module.exports = function (webot) {
 			var lat = info.param.lat;
 			var lng = info.param.lng;
 			yelp.search({term: 'food', location: lat+','+lng, limit: '5'}, function(error, data) {
-  			var data = data['businesses']
+  			var data = data['businesses'];
   			var res = new Array();
   			for (var i = 0; i < data.length; i++) {
   				(function(i) {
