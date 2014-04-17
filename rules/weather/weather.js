@@ -34,7 +34,7 @@ module.exports = function(webot) {
                   'Now: '+cur_temp].join('\n'),
           pic: cur_icon,
           url: 'http://www.theweathernetwork.com/weather/canada/ontario/waterloo',
-          description: res.join('\n')
+          description: res.join('\n\n')
         };
 		    next(null, ret);
   		});	
