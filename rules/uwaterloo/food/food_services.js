@@ -106,7 +106,7 @@ module.exports = function(webot) {
 	
 	webot.set('food service search', {
 		description: 'Use \'food\' command to search food services',
-		pattern: /^(food|用餐)\s*$/i,
+		pattern: /^(food)\s*$/i,
 		handler: function(info) {
 			info = utils.sanitizeInfo(info);
 			var reply = utils.localizedText(webot, 
@@ -182,7 +182,6 @@ module.exports = function(webot) {
       next();
     } else {
     	//TODO: 如何才能减少访问API的次数，将API数据存储到Local的数据库或是上传到Database
-			//TODO: 还有几个餐厅没有加进去
 			var num = Number(info.text);
 			var res;
 			if (isNaN(num) || num > foodName.length) {

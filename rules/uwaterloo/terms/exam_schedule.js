@@ -96,7 +96,7 @@ module.exports = function(webot) {
 
   webot.set('exam schedule', {
     description: 'Use \'exam\' command to get exam schedule of a course or a list of course',
-    pattern: /^(exam|考试)(\s*)/i,
+    pattern: /^(exam)\s*/i,
     handler: function(info) {
       info = utils.sanitizeInfo(info);
       info.wait('wait_course');
