@@ -19,7 +19,8 @@
     "underscore": "^1.4.4",
     "webot": "^0.1.8-1",
     "weixin-robot": "^0.5.5-1",
-    "yelp": "^0.1.1"
+    "yelp": "^0.1.1",
+    "weatherapi": "0.0.8"
   },
   "devDependencies": {
     "mocha": "~1.13.0",
